@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page for Maze</title>
+  </head>
+  <body>
+    <button id="login">Login with Google</button>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYF6JTrKLW8gfXbRNh-QLffP2VExPXyD8",
+        authDomain: "maze-game-fd83f.firebaseapp.com",
+        projectId: "maze-game-fd83f",
+        storageBucket: "maze-game-fd83f.appspot.com",
+        messagingSenderId: "729541199955",
+        appId: "1:729541199955:web:f0e414543a99c971d61ea6",
+        measurementId: "G-Z089FXGG7D",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <script>
+      var provider = new firebase.auth.GoogleAuthProvider();
+      const loginWithGoogle = () => {
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(function (error) {
+            console.log(err);
+          });
+      };
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          location.pathname = "";
+        }
+      });
+      document
+        .getElementById("login")
+        .addEventListener("click", loginWithGoogle);
+    </script>
+  </body>
+</html>

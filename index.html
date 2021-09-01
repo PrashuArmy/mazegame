@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"
+    ></script>
+    <title>Maze Game</title>
+  </head>
+  <body>
+    <div id="gradient"></div>
+    <div id="page">
+      <div id="Message-Container">
+        <div id="message">
+          <h1>Congratulations!</h1>
+          <p>You are done.</p>
+          <p id="moves"></p>
+          <input
+            id="okBtn"
+            type="button"
+            onclick="toggleVisablity('Message-Container')"
+            value="Cool!"
+          />
+        </div>
+      </div>
+      <div id="user-info">
+        <p class="username"></p>
+        <p class="email"></p>
+        <div id="avatar"></div>
+        <button id="logout">Logout</button>
+      </div>
+      <div id="menu">
+        <div class="custom-select">
+          <select id="diffSelect">
+            <option value="10">Easy</option>
+            <option value="15">Medium</option>
+            <option value="25">Hard</option>
+            <option value="38">Extreme</option>
+          </select>
+        </div>
+        <input
+          id="startMazeBtn"
+          type="button"
+          onclick="makeMaze()"
+          value="Start"
+        />
+      </div>
+      <div id="view">
+        <div id="mazeContainer">
+          <canvas
+            id="mazeCanvas"
+            class="border"
+            height="1100"
+            width="1100"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-auth.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYF6JTrKLW8gfXbRNh-QLffP2VExPXyD8",
+        authDomain: "maze-game-fd83f.firebaseapp.com",
+        projectId: "maze-game-fd83f",
+        storageBucket: "maze-game-fd83f.appspot.com",
+        messagingSenderId: "729541199955",
+        appId: "1:729541199955:web:f0e414543a99c971d61ea6",
+        measurementId: "G-Z089FXGG7D",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <script>
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          document.querySelector(".username").textContent = user.displayName;
+          document.querySelector(".email").textContent = user.email;
+          const img = document.createElement("img");
+          img.src = user.photoURL;
+          document.querySelector("#avatar").appendChild(img);
+          console.log(user);
+        } else {
+          location.pathname = "login.html";
+        }
+      });
+      const logout = () => {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            console.log("logged out");
+          })
+          .catch((error) => {
+            // An error happened.
+            console.log("error", error);
+          });
+      };
+      document.getElementById("logout").addEventListener("click", logout);
+    </script>
+    <script src="./script.js" defer></script>
+  </body>
+</html>
